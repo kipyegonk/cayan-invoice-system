@@ -157,29 +157,5 @@ class CayanQuoteService
         return Http::withToken($token)->acceptJson();
     }
 
-    private function getToken(bool $forceRefresh = false): string
-    {
-        $cacheKey = 'cayan_api_token';
-
-        if ($forceRefresh) {
-            Cache::forget($cacheKey);
-        }
-
-        return Cache::remember($cacheKey, now()->addMinutes(50), function () {
-            $response = Http::acceptJson()->post("{$this->baseUrl}/api/auth/login", [
-                'email'    => $this->email,
-                'password' => $this->password,
-            ]);
-
-            if (! $response->successful() || ! $response->json('token')) {
-                Log::error('cayan-l login failed', ['status' => $response->status(), 'body' => $response->body()]);
-                throw new QuoteValidationException(
-                    'cayan_auth_failed',
-                    'Could not authenticate the invoice system against cayan-l. Check CAYAN_API_* credentials.'
-                );
-            }
-
-            return $response->json('token');
-        });
-    }
+   
 }

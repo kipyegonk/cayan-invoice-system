@@ -19,9 +19,10 @@ use Illuminate\Support\Facades\Log;
  */
 class CayanQuoteService
 {
-    private string $baseUrl;
-    private string $email;
-    private string $password;
+   private string $baseUrl;
+    private ?string $staticToken;
+    private ?string $email;
+    private ?string $password;
     /** @var array<int,string> */
     private array $invoiceableStatuses;
 

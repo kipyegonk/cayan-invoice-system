@@ -4,7 +4,8 @@ return [
 
 'cayan' => [
         'base_url'             => env('CAYAN_API_URL', 'https://cayan-api.onrender.com'),
-        'email'                => env('CAYAN_API_EMAIL'),
+'token'                => env('CAYAN_API_TOKEN'),       
+ 'email'                => env('CAYAN_API_EMAIL'),
         'password'             => env('CAYAN_API_PASSWORD'),
         'invoiceable_statuses' => explode(',', env('CAYAN_INVOICEABLE_STATUSES', 'accepted,approved')),
     ],

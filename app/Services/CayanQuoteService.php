@@ -29,6 +29,7 @@ class CayanQuoteService
     public function __construct()
     {
         $this->baseUrl             = rtrim(config('services.cayan.base_url'), '/');
+         $this->staticToken         = config('services.cayan.token') ?: null;
         $this->email               = config('services.cayan.email');
         $this->password            = config('services.cayan.password');
         $this->invoiceableStatuses = config('services.cayan.invoiceable_statuses', ['accepted', 'approved']);

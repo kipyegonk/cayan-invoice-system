@@ -8,6 +8,7 @@ use App\Models\InvoiceItem;
 use App\Services\CayanQuoteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class InvoiceController extends Controller
 {

@@ -10,3 +10,4 @@ Route::get('quotes/{id}/verify', [InvoiceController::class, 'verifyQuote']);
 Route::get('invoices',        [InvoiceController::class, 'index']);
 Route::get('invoices/{id}',   [InvoiceController::class, 'show']);
 Route::post('invoices',       [InvoiceController::class, 'store']);
+Route::get('invoices/{id}/pdf', [InvoiceController::class, 'pdf']);

@@ -24,6 +24,16 @@ class InvoiceController extends Controller
         return response()->json(Invoice::with('items')->findOrFail($id));
     }
 
+    public function pdf($id)
+    {
+        $invoice = Invoice::with('items')->findOrFail($id);
+
+        $pdf = Pdf::loadView('invoices.pdf', ['invoice' => $invoice])
+            ->setPaper('a4');
+
+        return $pdf->download("{$invoice->invoice_number}.pdf");
+    }
+
     /**
      * GET /api/quotes/{id}/verify
      *

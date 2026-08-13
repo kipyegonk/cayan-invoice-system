@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Invoices {{ $invoice->invoice_number }}</title>
+    <title>Invoice {{ $invoice->invoice_number }}</title>
     <style>
         body { font-family: DejaVu Sans, sans-serif; font-size: 12px; color: #222; }
         .header { display: flex; justify-content: space-between; margin-bottom: 30px; }

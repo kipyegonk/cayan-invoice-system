@@ -3,7 +3,7 @@
 <div class="card">
     <h2>Invoices</h2>
     @if($invoices->count() === 0)
-        <p class="empty">No invoices yet..</p>
+        <p class="empty">No invoices yet.</p>
     @else
     <table>
         <thead>

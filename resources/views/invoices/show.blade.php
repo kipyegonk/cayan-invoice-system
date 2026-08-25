@@ -1,15 +1,26 @@
 @extends('layouts.app')
 @section('content')
-<div class="card">
-    <div style="display:flex;justify-content:space-between;">
+<div class="card" style="max-width:700px;margin:24px auto;">
+
+    <div style="display:flex;justify-content:space-between;margin-bottom:30px;">
         <div>
-            <h2>{{ $invoice->invoice_number }}</h2>
-            <p class="muted">{{ $invoice->client_name }} · {{ $invoice->created_at->format('d M Y') }}</p>
+            <h1 style="font-size:22px;margin:0 0 4px 0;">INVOICE</h1>
+            <div class="muted">{{ $invoice->invoice_number }}</div>
+            <div class="muted">Date: {{ $invoice->created_at->format('d M Y') }}</div>
         </div>
-        <span class="status {{ $invoice->status }}">{{ strtoupper($invoice->status) }}</span>
+        <div style="text-align:right;">
+            <div><strong>Billed to:</strong></div>
+            <div>{{ $invoice->client_name }}</div>
+            @if($invoice->quote_number)
+                <div class="muted">Quote ref: {{ $invoice->quote_number }}</div>
+            @endif
+            <div style="margin-top:8px;">
+                <span class="status {{ $invoice->status }}">{{ strtoupper($invoice->status) }}</span>
+            </div>
+        </div>
     </div>
 
-    <table style="margin-top:20px;">
+    <table>
         <thead>
             <tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Amount</th></tr>
         </thead>

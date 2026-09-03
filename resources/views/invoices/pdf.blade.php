@@ -60,7 +60,7 @@
         <tr><td><strong>Status:</strong> <span class="status {{ $invoice->status }}">{{ strtoupper($invoice->status) }}</span></td></tr>
     </table>
 
-    <table>
+    <table class="items">
         <thead>
             <tr><th>Qty</th><th>Description</th><th class="right">Unit Price</th><th class="right">Price</th></tr>
         </thead>

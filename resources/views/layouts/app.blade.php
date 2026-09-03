@@ -19,6 +19,12 @@ a.row-link{color:#1a1a1a;text-decoration:none;font-weight:500}
 .totals{width:260px;margin-left:auto;margin-top:16px}
 .totals td{border:none;padding:4px 8px}
 .totals .grand{font-weight:700;border-top:2px solid #333}
+table.items{border:1px solid #999;border-collapse:collapse}
+table.items th{border:1px solid #999;color:#7B241C}
+table.items td{border:1px solid #ccc}
+.totals{border:1px solid #999;border-collapse:collapse}
+.totals td{border:1px solid #999}
+.totals .grand{background:#f3f3f3}
 </style>
 </head>
 <body>

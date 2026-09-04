@@ -71,7 +71,23 @@
             <li>The company has no obligation to deliver until full payment has been made.</li>
         </ul>
     </div>
+    <div style="margin-top:40px;">
+        <div>Regards,</div>
+        <div>{{ $q['contact_person'] ?? '' }}</div>
+    </div>
 
+    <table style="width:100%;margin-top:30px;border:none;">
+        <tr>
+            <td style="border:none;width:50%;">
+                Signature:<br><br>
+                <div style="border-bottom:1px solid #333;width:200px;">&nbsp;</div>
+            </td>
+            <td style="border:none;">
+                Date:<br>
+                <div style="border-bottom:1px solid #333;width:200px;">{{ \Carbon\Carbon::parse($q['quote_date'] ?? $invoice->created_at)->format('d/m/Y') }}</div>
+            </td>
+        </tr>
+    </table>
     <div class="actions">
         <a class="btn" href="/invoices/{{ $invoice->id }}/pdf">Download PDF</a>
         <a class="btn secondary" href="/invoices">Back to list</a>

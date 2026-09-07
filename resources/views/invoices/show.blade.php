@@ -7,6 +7,7 @@
 
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
         <div>
+            <img src="{{ asset('images/cayan-logo.jpeg') }}" style="height:70px;">
             <div style="color:#b8860b;font-weight:700;font-style:italic;font-size:20px;">Cayan Events Ke.</div>
         </div>
         <div style="text-align:right;font-size:13px;">

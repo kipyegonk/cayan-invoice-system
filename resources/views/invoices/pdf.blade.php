@@ -33,6 +33,7 @@
     @php $q = $invoice->quote_snapshot ?? []; @endphp
 
     <div class="header">
+         <img src="{{ public_path('images/cayan-logo.jpeg') }}" style="height:70px;">
         <div class="company">Cayan Events Ke.</div>
         <div class="contact">
             <div><strong>Phone:</strong> 0737 611 658</div>

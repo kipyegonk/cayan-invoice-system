@@ -11,7 +11,7 @@
             <div style="color:#b8860b;font-weight:700;font-style:italic;font-size:20px;">Cayan Events Ke.</div>
         </div>
         <div style="text-align:right;font-size:13px;">
-            <div><strong>Phone:</strong> 0737 611 658</div>
+            <div><strong>Phone:</strong> 0737 611 ***</div>
             <div><strong>E-mail:</strong> cayaneventsanddecor@gmail.com</div>
             <div><strong>Address:</strong> Mokoyeti West Road, Karen</div>
         </div>

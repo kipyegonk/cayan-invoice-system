@@ -31,18 +31,40 @@ class SyncInvoices extends Command
         $quotes = $response->json();
         $created = 0;
 
+                $seenQuoteIds = [];
+
         foreach ($quotes as $quoteData) {
             $quoteId = $quoteData['id'];
+            $seenQuoteIds[] = $quoteId;
 
-            // Skip if we already have an invoice for this quote
-            if (Invoice::where('cayan_quote_id', $quoteId)->exists()) {
-                continue;
-            }
+            $existingInvoice = Invoice::where('cayan_quote_id', $quoteId)->first();
 
             try {
                 $quote = $cayan->verifyQuote($quoteId);
             } catch (QuoteValidationException $e) {
-                // Not invoiceable yet (pending, expired, etc.) - skip silently
+                // Quote is no longer invoiceable (status changed, expired, etc.)
+                if ($existingInvoice && $existingInvoice->status === 'unpaid') {
+                    $existingInvoice->update(['status' => 'void']);
+                    $this->warn("Voided invoice {$existingInvoice->invoice_number} - quote {$quoteId} no longer invoiceable ({$e->reason}).");
+                }
+                continue;
+            }
+
+            // Quote is currently invoiceable
+            if ($existingInvoice) {
+                // Already have an invoice for it - if it was void, reinstate it and refresh the snapshot
+                if ($existingInvoice->status === 'void') {
+                    $existingInvoice->update([
+                        'status'         => 'unpaid',
+                        'quote_snapshot' => $quote,
+                        'verified_at'    => now(),
+                        'subtotal'       => $quote['subtotal'] ?? 0,
+                        'vat_rate'       => $quote['vat_rate'] ?? 0,
+                        'vat_amount'     => $quote['vat_amount'] ?? 0,
+                        'total'          => $quote['total'] ?? 0,
+                    ]);
+                    $this->info("Reinstated invoice {$existingInvoice->invoice_number} - quote {$quoteId} is invoiceable again.");
+                }
                 continue;
             }
 

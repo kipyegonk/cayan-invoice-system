@@ -119,10 +119,11 @@ class InvoiceController extends Controller
             'number'  => $invoice->invoice_number,
         ], 201);
     }
-        public function indexView()
+            public function indexView()
     {
-        $invoices = Invoice::orderBy('id', 'desc')->get();
-        return view('invoices.index', ['invoices' => $invoices]);
+        $invoices = Invoice::where('status', '!=', 'void')->orderBy('id', 'desc')->get();
+        $voided   = Invoice::where('status', 'void')->orderBy('id', 'desc')->get();
+        return view('invoices.index', ['invoices' => $invoices, 'voided' => $voided]);
     }
 
     public function showView($id)

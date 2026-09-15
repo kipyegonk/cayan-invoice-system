@@ -23,4 +23,25 @@
     </table>
     @endif
 </div>
+@if($voided->count() > 0)
+<div class="card">
+    <h2 class="muted">Voided (quote no longer valid)</h2>
+    <table>
+        <thead>
+            <tr><th>Number</th><th>Client</th><th>Total</th><th>Status</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+            @foreach($voided as $invoice)
+            <tr>
+                <td><a class="row-link" href="/invoices/{{ $invoice->id }}">{{ $invoice->invoice_number }}</a></td>
+                <td>{{ $invoice->client_name }}</td>
+                <td>{{ number_format($invoice->total, 2) }}</td>
+                <td><span class="status void">VOID</span></td>
+                <td>{{ $invoice->created_at->format('d M Y') }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endif
 @endsection

@@ -50,20 +50,43 @@ class SyncInvoices extends Command
                 continue;
             }
 
-            // Quote is currently invoiceable
+                        // Quote is currently invoiceable
             if ($existingInvoice) {
-                // Already have an invoice for it - if it was void, reinstate it and refresh the snapshot
-                if ($existingInvoice->status === 'void') {
+                $wasVoid = $existingInvoice->status === 'void';
+
+                DB::transaction(function () use ($existingInvoice, $quote, $wasVoid) {
                     $existingInvoice->update([
                         'status'         => 'unpaid',
                         'quote_snapshot' => $quote,
                         'verified_at'    => now(),
+                        'client_name'    => $quote['client_name'] ?? $existingInvoice->client_name,
                         'subtotal'       => $quote['subtotal'] ?? 0,
                         'vat_rate'       => $quote['vat_rate'] ?? 0,
                         'vat_amount'     => $quote['vat_amount'] ?? 0,
                         'total'          => $quote['total'] ?? 0,
                     ]);
+
+                    // Replace items with the latest from cayan-l
+                    $existingInvoice->items()->delete();
+                    foreach ($quote['items'] ?? [] as $item) {
+                        InvoiceItem::create([
+                            'invoice_id' => $existingInvoice->id,
+                            'type'       => $item['type'] ?? 'item',
+                            'section'    => $item['section'] ?? null,
+                            'subsection' => $item['subsection'] ?? null,
+                            'name'       => $item['name'] ?? null,
+                            'qty'        => $item['qty'] ?? null,
+                            'unit_price' => $item['unit_price'] ?? null,
+                            'price'      => $item['price'] ?? null,
+                            'sort_order' => $item['sort_order'] ?? 0,
+                        ]);
+                    }
+                });
+
+                if ($wasVoid) {
                     $this->info("Reinstated invoice {$existingInvoice->invoice_number} - quote {$quoteId} is invoiceable again.");
+                } else {
+                    $this->line("Refreshed invoice {$existingInvoice->invoice_number} from quote {$quoteId}.");
                 }
                 continue;
             }

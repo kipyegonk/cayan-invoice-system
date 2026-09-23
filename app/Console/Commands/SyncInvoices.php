@@ -42,7 +42,7 @@ class SyncInvoices extends Command
             try {
                 $quote = $cayan->verifyQuote($quoteId);
             } catch (QuoteValidationException $e) {
-                // Quote is no longer invoiceable (status changed, expired, etc.)
+                // Quote is no longer invoiceable (status changed, expired, etc..)
                 if ($existingInvoice && $existingInvoice->status === 'unpaid') {
                     $existingInvoice->update(['status' => 'void']);
                     $this->warn("Voided invoice {$existingInvoice->invoice_number} - quote {$quoteId} no longer invoiceable ({$e->reason}).");

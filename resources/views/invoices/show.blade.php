@@ -89,7 +89,6 @@
             </td>
         </tr>
     </table>
-    <div class="actions">
-    </div>
+    
 </div>
 @endsection

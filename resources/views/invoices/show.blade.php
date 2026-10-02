@@ -90,7 +90,7 @@
         </tr>
     </table>
     <div class="actions">
-        llllllllllllllllllllllllllll<a class="btn" href="/invoices/{{ $invoice->id }}/pdf">Download PDF</a>
+        llllllllllllllllllll<a class="btn" href="/invoices/{{ $invoice->id }}/pdf">Download PDF</a>
         <a class="btn secondary" href="/invoices">Back to list</a>
     </div>
 </div>

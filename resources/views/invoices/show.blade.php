@@ -90,7 +90,6 @@
         </tr>
     </table>
     <div class="actions">
-        <a class="btn" href="/invoices/{{ $invoice->id }}/pdf">Download PDF</a>
     </div>
 </div>
 @endsection

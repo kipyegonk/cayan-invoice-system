@@ -131,4 +131,13 @@ class InvoiceController extends Controller
         $invoice = Invoice::with('items')->findOrFail($id);
         return view('invoices.show', ['invoice' => $invoice]);
     }
+        public function markPaid($id)
+    {
+        $invoice = Invoice::findOrFail($id);
+        $invoice->update([
+            'status'  => 'paid',
+            'paid_at' => now(),
+        ]);
+        return redirect("/invoices/{$id}");
+    }
 }

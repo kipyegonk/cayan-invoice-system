@@ -16,6 +16,7 @@ class Invoice extends Model
         'vat_amount',
         'total',
         'status',
+        'paid_at',
         'quote_snapshot', // full JSON of the cayan-l quote at time of verification, for audit
         'verified_at',
     ];

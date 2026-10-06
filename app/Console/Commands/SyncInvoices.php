@@ -56,7 +56,7 @@ class SyncInvoices extends Command
 
                 DB::transaction(function () use ($existingInvoice, $quote, $wasVoid) {
                     $existingInvoice->update([
-                        'status'         => 'unpaid',
+                        'status'         => 
                         'quote_snapshot' => $quote,
                         'verified_at'    => now(),
                         'client_name'    => $quote['client_name'] ?? $existingInvoice->client_name,

@@ -26,6 +26,7 @@ class Invoice extends Model
         'vat_rate'       => 'float',
         'vat_amount'     => 'float',
         'total'          => 'float',
+        'paid_at' => 'datetime',
         'quote_snapshot' => 'array',
         'verified_at'    => 'datetime',
     ];

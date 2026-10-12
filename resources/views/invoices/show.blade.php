@@ -96,8 +96,6 @@
             @csrf
             <button type="submit" class="btn" style="background:#027a48;border:none;cursor:pointer;">Mark as Paid</button>
         </form>
-        @elseif($invoice->status === 'paid')
-        <span class="muted">Paid on {{ $invoice->paid_at?->format('d M Y') }}</span>
         @endif
         <a class="btn secondary" href="/invoices">Back to list</a>
     </div>

@@ -58,7 +58,7 @@
         @if(!empty($q['contact_person']))
         <tr><td><strong>Contact Person:</strong> {{ $q['contact_person'] }}</td></tr>
         @endif
-        <tr><td><strong>Status:</strong> <span class="status {{ $invoice->status }}">{{ strtoupper($invoice->status) }}</span></td></tr>
+        <tr><td><strong>Status:</strong> <span class="status {{ $invoice->status }}">{{ strtoupper($invoice->status) }}</span>@if($invoice->status === 'paid' && $invoice->paid_at) &nbsp;Paid on {{ $invoice->paid_at->format('d M Y') }}@endif</td></tr>
     </table>
 
     <table class="items">

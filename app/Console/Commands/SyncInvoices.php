@@ -21,8 +21,17 @@ class SyncInvoices extends Command
         $baseUrl = rtrim(config('services.cayan.base_url'), '/');
         $token = config('services.cayan.token');
 
-        $response = Http::withToken($token)->acceptJson()->get("{$baseUrl}/api/quotes");
-
+                try {
+            $response = Http::withToken($token)
+                ->acceptJson()
+                ->timeout(90)
+                ->retry(2, 5000)
+                ->get("{$baseUrl}/api/quotes");
+        } catch (\Illuminate\Http\Client\ConnectionException $e) {
+            $this->warn('cayan-l is not responding (probably waking up). Will try again next run.');
+            Log::warning('invoices:sync could not reach cayan-l: ' . $e->getMessage());
+            return 1;
+        }
         if (! $response->successful()) {
             $this->error('Could not reach cayan-l: HTTP ' . $response->status());
             return 1;

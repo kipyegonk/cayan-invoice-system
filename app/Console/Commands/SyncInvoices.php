@@ -74,9 +74,10 @@ class SyncInvoices extends Command
                         'vat_amount'     => $quote['vat_amount'] ?? 0,
                         'total'          => $quote['total'] ?? 0,
                     ]);
-
-                    // Replace items with the latest from cayan-l
-                    $existingInvoice->items()->delete();
+                    // Replace items with the latest from cayan-l (never wipe them if none were sent)
+                    if (! empty($quote['items'])) {
+                        $existingInvoice->items()->delete();
+                    }
                     foreach ($quote['items'] ?? [] as $item) {
                         InvoiceItem::create([
                             'invoice_id' => $existingInvoice->id,

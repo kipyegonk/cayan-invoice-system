@@ -126,10 +126,42 @@ class InvoiceController extends Controller
         return view('invoices.index', ['invoices' => $invoices, 'voided' => $voided]);
     }
 
-    public function showView($id)
+        public function indexView(Request $request)
     {
-        $invoice = Invoice::with('items')->findOrFail($id);
-        return view('invoices.show', ['invoice' => $invoice]);
+        $search = trim($request->query('q', ''));
+        $status = $request->query('status', '');
+
+        $query = Invoice::where('status', '!=', 'void');
+
+        if ($search !== '') {
+            $query->where(function ($w) use ($search) {
+                $w->where('client_name', 'like', "%{$search}%")
+                  ->orWhere('invoice_number', 'like', "%{$search}%")
+                  ->orWhere('quote_number', 'like', "%{$search}%");
+            });
+        }
+
+        if (in_array($status, ['paid', 'unpaid'], true)) {
+            $query->where('status', $status);
+        }
+
+        $invoices = $query->orderBy('id', 'desc')->get();
+        $voided   = Invoice::where('status', 'void')->orderBy('id', 'desc')->get();
+
+        $summary = [
+            'outstanding' => Invoice::where('status', 'unpaid')->sum('total'),
+            'paid'        => Invoice::where('status', 'paid')->sum('total'),
+            'unpaid_count'=> Invoice::where('status', 'unpaid')->count(),
+            'paid_count'  => Invoice::where('status', 'paid')->count(),
+        ];
+
+        return view('invoices.index', [
+            'invoices' => $invoices,
+            'voided'   => $voided,
+            'summary'  => $summary,
+            'search'   => $search,
+            'status'   => $status,
+        ]);
     }
         public function markPaid($id)
     {

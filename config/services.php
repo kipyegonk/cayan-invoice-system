@@ -1,7 +1,10 @@
 <?php
 
 return [
-
+    'basic_auth' => [
+        'user'     => env('BASIC_AUTH_USER'),
+        'password' => env('BASIC_AUTH_PASSWORD'),
+    ],
 'cayan' => [
         'base_url'             => env('CAYAN_API_URL', 'https://cayan-api.onrender.com'),
 'token'                => env('CAYAN_API_TOKEN'),       

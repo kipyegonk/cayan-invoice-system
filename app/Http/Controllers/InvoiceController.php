@@ -9,6 +9,8 @@ use App\Services\CayanQuoteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 class InvoiceController extends Controller
 {
@@ -122,6 +124,14 @@ class InvoiceController extends Controller
 
         public function indexView(Request $request)
     {
+                // Sync with cayan-l after the page is sent, at most once every 5 minutes.
+        // Cache::add only succeeds if the lock isn't already held, so visits don't pile up.
+        $syncing = Cache::add('invoice_sync_lock', now()->toDateTimeString(), 300);
+        if ($syncing) {
+            dispatch(function () {
+                Artisan::call('invoices:sync');
+            })->afterResponse();
+        }
         $search = trim($request->query('q', ''));
         $status = $request->query('status', '');
 
@@ -155,6 +165,7 @@ class InvoiceController extends Controller
             'summary'  => $summary,
             'search'   => $search,
             'status'   => $status,
+            'syncing'  => $syncing,
         ]);
     }
         public function markPaid($id)
